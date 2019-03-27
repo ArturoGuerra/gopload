@@ -1,6 +1,7 @@
 package handlers
 
 import (
+    "fmt"
     "bytes"
     "strconv"
     "strings"
@@ -45,22 +46,25 @@ func GenUrl(c echo.Context, filename string) string {
     return url
 }
 
-func S3Upload(file *multipart.FileHeader, filename string) bool {
+func S3Upload(file *multipart.FileHeader, filename string) error {
     src,_ := file.Open()
     defer src.Close()
-    sess := session.Must(session.NewSession())
+    sess := session.Must(session.NewSession(&aws.Config{
+        Region: aws.String("us-east-1"),
+    }))
     uploader := s3manager.NewUploader(sess)
     _, err := uploader.Upload(&s3manager.UploadInput{
         Bucket: aws.String(config.Bucket),
         Key: aws.String(filename),
         Body: src,
+        ACL: aws.String("public-read"),
+        ContentType: aws.String("image/jpeg"),
     })
 
-    if err == nil {
-        return true
-    } else {
-        return false
-    }
+
+    return err
+
+
 }
 
 type Payload struct {
@@ -85,8 +89,10 @@ func Upload(c echo.Context) error {
     ext := GetExt(file.Filename)
     filename := GenFileName(ext)
     url := GenUrl(c, filename)
-
-    S3Upload(file, filename)
+    err = S3Upload(file, filename)
+    if err != nil {
+        fmt.Println(err)
+    }
 
     res := &Payload{filename, url}
 

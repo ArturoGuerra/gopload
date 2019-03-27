@@ -1,0 +1,64 @@
+service: imagehost
+
+provider:
+  name: aws
+  stage: production
+  region: us-east-1
+  runtime: go1.x
+  environment:
+    NODE_ENV: production
+    BUCKET: 'img-dixionary'
+
+functions:
+  main:
+    handler: bin/server
+    events:
+      - http: ANY /
+        cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - Startlower
+              - Text
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Origin
+              - url
+            allowCredentials: false
+        contentHandling: CONVERT_TO_BINARY
+      - http: ANY /{proxy+}
+        cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - Startlower
+              - Text
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Origin
+              - url
+            allowCredentials: false
+        contentHandling: CONVERT_TO_BINARY
+
+plugins:
+    - serverless-domain-manager
+    - serverless-apigw-binary
+    - serverless-apigwy-binary
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+  customDomain:
+    domainName: imgapi.arturonet.com
+    stage: production
+    certificateName: '*.arturonet.com'
+    createRoute53Record: true

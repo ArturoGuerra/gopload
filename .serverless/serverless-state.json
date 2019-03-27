@@ -110,7 +110,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/imagehost/production/1553669368427-2019-03-27T06:49:28.427Z/imagehost.zip"
+                "S3Key": "serverless/imagehost/production/1553723651370-2019-03-27T21:54:11.370Z/imagehost.zip"
               },
               "FunctionName": "imagehost-production-main",
               "Handler": "bin/server",
@@ -135,14 +135,14 @@
               "IamRoleLambdaExecution"
             ]
           },
-          "MainLambdaVersionLkIoFtlboUue2yTHBDPcUxa1vzSsuUd4EOtNNvEygrc": {
+          "MainLambdaVersionG0xTWGqGAnxm4SzgZW9E3oCubg7hdDoZ5a5b3WBWjC8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "MainLambdaFunction"
               },
-              "CodeSha256": "xcyRJK+LoFv9v58mrjx076TZw1yuZzfGfAYK97IcAyo="
+              "CodeSha256": "MCcekLE6EHFvBpaH3WVYIemSH8p6Y3/GM+Qb366kN9Q="
             }
           },
           "ApiGatewayRestApi": {
@@ -252,7 +252,7 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1553669368547": {
+          "ApiGatewayDeployment1553723651539": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -308,7 +308,7 @@
           "MainLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "MainLambdaVersionLkIoFtlboUue2yTHBDPcUxa1vzSsuUd4EOtNNvEygrc"
+              "Ref": "MainLambdaVersionG0xTWGqGAnxm4SzgZW9E3oCubg7hdDoZ5a5b3WBWjC8"
             }
           },
           "ServiceEndpoint": {
@@ -416,10 +416,10 @@
         "vpc": {}
       }
     },
-    "artifact": "/home/arturo/go/src/reee/.serverless/imagehost.zip"
+    "artifact": "/home/arturo/go/src/goimageuploader/.serverless/imagehost.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/imagehost/production/1553669368427-2019-03-27T06:49:28.427Z",
+    "artifactDirectoryName": "serverless/imagehost/production/1553723651370-2019-03-27T21:54:11.370Z",
     "artifact": "imagehost.zip"
   }
 }

@@ -1,13 +1,11 @@
 package handlers
 
 import (
-    "fmt"
     "bytes"
-    "strconv"
     "strings"
     "net/http"
+    "misc"
     "mime/multipart"
-    "github.com/sony/sonyflake"
     "github.com/labstack/echo"
     "github.com/aws/aws-sdk-go/service/s3/s3manager"
     "github.com/aws/aws-sdk-go/aws"
@@ -26,11 +24,10 @@ func GetExt(f string) string {
 }
 
 func GenFileName(ext string) string {
-    flake := sonyflake.NewSonyflake(sonyflake.Settings{})
-    name,_ := flake.NextID()
+    name := rand.RandString(10)
 
     var buf bytes.Buffer
-    buf.WriteString(strconv.FormatUint(name, 10))
+    buf.WriteString(name)
     buf.WriteString(".")
     buf.WriteString(ext)
     result := buf.String()
@@ -47,19 +44,24 @@ func GenUrl(c echo.Context, filename string) string {
 }
 
 func S3Upload(file *multipart.FileHeader, filename string) error {
-    src,_ := file.Open()
+    src, err := file.Open()
+    if err != nil {
+        return err
+    }
+
     defer src.Close()
     sess := session.Must(session.NewSession(&aws.Config{
         Region: aws.String("us-east-1"),
     }))
     uploader := s3manager.NewUploader(sess)
-    _, err := uploader.Upload(&s3manager.UploadInput{
+    _, err = uploader.Upload(&s3manager.UploadInput{
         Bucket: aws.String(config.Bucket),
         Key: aws.String(filename),
         Body: src,
         ACL: aws.String("public-read"),
         ContentType: aws.String("image/jpeg"),
     })
+
 
 
     return err
@@ -79,19 +81,13 @@ func Upload(c echo.Context) error {
         return err
     }
 
-    src, err := file.Open()
-    if err != nil {
-        return err
-    }
-
-    defer src.Close()
 
     ext := GetExt(file.Filename)
     filename := GenFileName(ext)
     url := GenUrl(c, filename)
     err = S3Upload(file, filename)
     if err != nil {
-        fmt.Println(err)
+        return err
     }
 
     res := &Payload{filename, url}

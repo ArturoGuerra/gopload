@@ -8,7 +8,6 @@ import (
     "github.com/akrylysov/algnhsa"
 )
 
-//var Handle apigatewayproxy.Handler
 
 func main () {
     e := echo.New()

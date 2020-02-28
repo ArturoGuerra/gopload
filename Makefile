@@ -16,9 +16,9 @@ docker-check:
 	test $(DOCKERREPO)
 
 docker-build: docker-check
-	$(DOCKERREPO) build . -t $(DOCKERREPO)
+	$(DOCKER) build . -t $(DOCKERREPO)
 
 docker-push: docker-check
-	$(DOCKERREPO) push $(DOCKERREPO)
+	$(DOCKER) push $(DOCKERREPO)
 
 docker: docker-build docker-push

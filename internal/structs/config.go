@@ -6,5 +6,6 @@ type Config struct {
     Location        string
     AccessKeyID     string
     SecretAccessKey string
+    ProxyURL        string
     SSL             bool
 }

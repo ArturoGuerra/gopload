@@ -39,6 +39,7 @@ func Load() *structs.Config {
     location  := Getenv("LOCATION", "REGION", "us-east-1")
     accesskey := Getenv("ACCESS_KEY_ID", "AWS_ACCESS_KEY_ID", "")
     secretkey := Getenv("SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY", "")
+    proxyurl  := Getenv("PROXY_URL", "", "")
 
     return &structs.Config{
         Endpoint:        endpoint,
@@ -46,6 +47,7 @@ func Load() *structs.Config {
         Location:        location,
         AccessKeyID:     accesskey,
         SecretAccessKey: secretkey,
+        ProxyURL:        proxyurl,
         SSL:             getSSL(),
     }
 }

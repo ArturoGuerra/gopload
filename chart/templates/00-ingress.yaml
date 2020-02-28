@@ -1,0 +1,30 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.name }}
+  annotations:
+    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+    {{- if .Values.tls.enabled }}
+    cert-manager.io/cluster-issuer: {{ .Values.tls.issuer }}
+    {{- end }}
+spec:
+  {{- if .Values.tls.enabled }}
+  tls:
+    - secretName: {{ .Values.tls.secret }}
+      hosts:
+        {{- range .Values.tls.hosts }}
+        - {{ quote . }}
+        {{- end }}
+  {{- end }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ . }}
+      http:
+        paths:
+          - path: /upload
+            backend:
+              serviceName: {{ $.Values.name }}
+              servicePort: service
+    {{- end }}
+{{- end }}

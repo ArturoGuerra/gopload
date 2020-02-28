@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: minio
+  annotations:
+    cert-manager.io/cluster-issuer: "r53"
+    nginx.ingress.kubernetes.io/proxy-body-size: 256m
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 256m
+    nginx.ingress.kubernetes.io/proxy-max-temp-file-size: 256m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 256m
+
+spec:
+  tls:
+    - secretName: minio-tls
+      hosts:
+        - minio.arturonet.com
+        - "*.minio.arturonet.com"
+  rules:
+    - host: arturo.minio.arturonet.com
+      http:
+        paths:
+          - backend:
+              serviceName: minio
+              servicePort: 9000
+    - host: minio.arturonet.com
+      http:
+        paths:
+          - backend:
+              serviceName: minio
+              servicePort: 9000

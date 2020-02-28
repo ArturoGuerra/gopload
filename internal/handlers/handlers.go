@@ -22,6 +22,12 @@ func init() {
         log.Fatal(err)
     }
 
+    log.Info("Starting minio uploader")
+
+    if err = p.Init(); err != nil {
+        log.Fatal(err)
+    }
+
     provider = p
 }
 

@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: iarturonet-minio
+  annotations:
+    cert-manager.io/cluster-issuer: "r53"
+    nginx.ingress.kubernetes.io/upstream-vhost: arturo.minio.arturonet.com
+spec:
+  tls:
+    - secretName: iarturonet-minio-tls
+      hosts:
+        - "*.arturonet.com"
+  rules:
+    - host: i.arturonet.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: minio
+              servicePort: service
+    - host: img.arturonet.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: minio
+              servicePort: service

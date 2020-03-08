@@ -10,7 +10,7 @@ secretName: gopload
 
 image:
   repository: arturoguerra/gopload
-  tag: v1.1.4
+  tag: v1.1.10
 
 
 service:

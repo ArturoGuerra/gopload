@@ -3,6 +3,8 @@ ENDPOINT: "http s3/minio endpoint"
 BUCKET: "bucket name"
 LOCATION: "region"
 PATH_ENDPOINT: "/"
+POLICY_CHECK: "true"
+SSL: "true"
 
 Create a Secret with the following values:
 AccessKeyId: "S3/Minio AccessKeyID"

@@ -54,7 +54,9 @@ func (u *uploader) Init() error {
     if u.Cfg.PolicyCheck {
         log.Infof("Setting bucket policy")
         if errBucketPolicy := u.Client.SetBucketPolicy(bucket, policy); errBucketPolicy != nil {
-            log.Fatal(errBucketPolicy)
+            if errBucketPolicy.Error() != "200 OK" {
+               log.Fatal(errBucketPolicy)
+            }
         }
     } else {
         log.Info("Skipping policy check")
@@ -78,7 +80,8 @@ func (u *uploader) Upload(object utils.Object) error {
     defer src.Close()
 
     opts := minio.PutObjectOptions{
-        ContentType: "image/jpeg",
+        ContentType: "image/png",
+        UserMetadata: map[string]string{"x-amz-acl": "public-read"},
     }
 
     log.Infof("Uploading: %s of size: %d", object.GetFilename(), file.Size)

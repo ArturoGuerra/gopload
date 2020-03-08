@@ -2,6 +2,7 @@ Create a ConfigMap with the following values:
 ENDPOINT: "http s3/minio endpoint"
 BUCKET: "bucket name"
 LOCATION: "region"
+PATH_ENDPOINT: "/"
 
 Create a Secret with the following values:
 AccessKeyId: "S3/Minio AccessKeyID"

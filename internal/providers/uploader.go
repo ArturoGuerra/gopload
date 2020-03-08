@@ -11,7 +11,6 @@ import (
 )
 
 var log = logging.New()
-const policy = `{"Statement":[{"Action":["s3:GetBucketLocation","s3:ListBucket"],"Effect":"Allow","Principal":{"AWS":["*"]},"Resource":["arn:aws:s3:::arturo"]},{"Action":["s3:GetObject"],"Effect":"Allow","Principal":{"AWS":["*"]},"Resource":["arn:aws:s3:::arturo/*"]}],"Version":"2012-10-17"}`
 
 type (
     uploader struct {
@@ -42,19 +41,26 @@ func (u *uploader) Init() error {
     bucket := u.Cfg.Bucket
     region := u.Cfg.Location
 
-    log.Info("Creating bucket")
+    log.Info("Creating bucket...")
     err := u.Client.MakeBucket(bucket, region)
     if err != nil {
-        log.Error(err)
-        return nil
+        if exists, errBucketExists := u.Client.BucketExists(bucket); errBucketExists == nil && exists {
+            log.Infof("We already own %s", bucket)
+        } else {
+            log.Fatal(err)
+        }
     }
 
-    log.Info("Setting bucket policy")
-    err = u.Client.SetBucketPolicy(bucket, policy)
-    if err != nil {
-        return err
+    if u.Cfg.PolicyCheck {
+        log.Infof("Setting bucket policy")
+        if errBucketPolicy := u.Client.SetBucketPolicy(bucket, policy); errBucketPolicy != nil {
+            log.Fatal(errBucketPolicy)
+        }
+    } else {
+        log.Info("Skipping policy check")
     }
 
+    log.Info("Completed Bucket setup")
     return nil
 }
 

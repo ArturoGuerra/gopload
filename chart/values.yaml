@@ -10,7 +10,7 @@ secretName: gopload
 
 image:
   repository: arturoguerra/gopload
-  tag: latest
+  tag: v1.1.4
 
 
 service:
@@ -28,12 +28,12 @@ ingress:
 
 
   hosts:
-    - i.arturonet.com
+    - upload.arturonet.com
 
 tls:
   enabled: false
   cluster: true
-  issuer: r53
+  issuer: cloudflare
   secret: gopload-tls
   hosts:
-    - "*.arturonet.com"
+    - "upload.arturonet.com"

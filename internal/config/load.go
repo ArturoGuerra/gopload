@@ -34,6 +34,7 @@ func Getenv(key, alt,fallback string) string {
 }
 
 func Load() *structs.Config {
+    path      := Getenv("ENDPOINT_PATH", "", "/upload")
     endpoint  := Getenv("ENDPOINT", "", "s3.amazonaws.com")
     bucket    := Getenv("BUCKET", "", "")
     location  := Getenv("LOCATION", "REGION", "us-east-1")
@@ -41,11 +42,13 @@ func Load() *structs.Config {
     secretkey := Getenv("SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY", "")
 
     return &structs.Config{
+        Path:            path,
         Endpoint:        endpoint,
         Bucket:          bucket,
         Location:        location,
         AccessKeyID:     accesskey,
         SecretAccessKey: secretkey,
         SSL:             GetBoolEnv("SSL"),
+        PolicyCheck:     GetBoolEnv("POLICY_CHECK"),
     }
 }

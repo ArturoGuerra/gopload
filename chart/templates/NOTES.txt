@@ -9,3 +9,4 @@ SSL: "true"
 Create a Secret with the following values:
 AccessKeyId: "S3/Minio AccessKeyID"
 SecretAccessKey: "S3/Minio SecretAccessKey"
+api-key: "Internal api can be whatever you want"

@@ -9,4 +9,5 @@ type Config struct {
     SecretAccessKey string
     SSL             bool
     PolicyCheck     bool
+    ApiKey          string
 }

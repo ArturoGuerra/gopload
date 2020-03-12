@@ -40,6 +40,7 @@ func Load() *structs.Config {
     location  := Getenv("LOCATION", "REGION", "us-east-1")
     accesskey := Getenv("ACCESS_KEY_ID", "AWS_ACCESS_KEY_ID", "")
     secretkey := Getenv("SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY", "")
+    ApiKey    := Getenv("X-API-KEY", "", "")
 
     return &structs.Config{
         Path:            path,
@@ -50,5 +51,6 @@ func Load() *structs.Config {
         SecretAccessKey: secretkey,
         SSL:             GetBoolEnv("SSL"),
         PolicyCheck:     GetBoolEnv("POLICY_CHECK"),
+        ApiKey:          ApiKey,
     }
 }

@@ -20,7 +20,7 @@ func main () {
     e := echo.New()
     e.Use(middleware.Logger())
     e.Use(middleware.Recover())
-    e.POST(cfg.Path, handlers.Upload, mdlware.CallbackUrl, middleware.BodyLimit("100m"))
+    e.POST(cfg.Path, handlers.Upload, mdlware.Auth, middleware.BodyLimit("100m"))
     e.GET("/", func(c echo.Context) error {
         return c.String(200, "")
     })

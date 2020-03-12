@@ -34,6 +34,11 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secretName }}
                   key: SecretAccessKey
+            - name: X-API-KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: api-key
                   #resources:
                   #      requests:
                   #memory: "256Mi"

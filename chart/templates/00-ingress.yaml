@@ -22,7 +22,7 @@ spec:
     - host: {{ . }}
       http:
         paths:
-          - path: /upload
+          - path: {{ $.Values.path }}
             backend:
               serviceName: {{ $.Values.name }}
               servicePort: service

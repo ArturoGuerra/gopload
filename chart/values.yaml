@@ -5,12 +5,13 @@
 replicaCount: 1
 name: gopload
 port: 5000
+path: /upload
 configName: gopload
 secretName: gopload
 
 image:
   repository: arturoguerra/gopload
-  tag: v1.1.10
+  tag: v1.2.0
 
 
 service:
